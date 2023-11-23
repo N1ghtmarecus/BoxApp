@@ -2,27 +2,19 @@
 using BoxApp.Entities;
 using BoxApp.Repositories;
 
-var employeeRepository = new SqlRepository<Employee>(new BoxAppDbContext());
-AddEmployees(employeeRepository);
-AddManagers(employeeRepository);
-WriteAllToConsole(employeeRepository);
+var fefcoRepository = new SqlRepository<Box>(new BoxAppDbContext());
+AddFefcoBox(fefcoRepository);
+Display(fefcoRepository);
 
-static void AddEmployees(IRepository<Employee> employeeRepository)
+static void AddFefcoBox(IRepository<Box> fefcoRepository)
 {
-    employeeRepository.Add(new Employee { FirstName = "Maciej" });
-    employeeRepository.Add(new Employee { FirstName = "Piotr" });
-    employeeRepository.Add(new Employee { FirstName = "Zuzanna" });
-    employeeRepository.Save();
+    fefcoRepository.Add(new Box { Fefco = 201, Length = 80, Width = 70, Height = 40, Flute = "E", Grammage = 360 });
+    fefcoRepository.Add(new Box { Fefco = 201, Length = 90, Width = 60, Height = 80, Flute = "B", Grammage = 420 });
+    fefcoRepository.Add(new Box { Fefco = 201, Length = 205, Width = 115, Height = 60, Flute = "EB", Grammage = 650 });
+    fefcoRepository.Save();
 }
 
-static void AddManagers(IWriteRepository<Manager> managerRepository)
-{
-    managerRepository.Add(new Manager { FirstName = "Przemek" });
-    managerRepository.Add(new Manager { FirstName = "Tomasz" });
-    managerRepository.Save();
-}
-
-static void WriteAllToConsole(IReadRepository<IEntity> repository)
+static void Display(IReadRepository<IEntity> repository)
 {
     var items = repository.GetAll();
     foreach (var item in items)

@@ -5,9 +5,7 @@ namespace BoxApp.Data
 {
     public class BoxAppDbContext : DbContext
     {
-        public DbSet<Employee> Employees => Set<Employee>();
-
-        public DbSet<BusinessPartner> BusinessPartners => Set<BusinessPartner>();
+        public DbSet<Box> Boxes => Set<Box>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
