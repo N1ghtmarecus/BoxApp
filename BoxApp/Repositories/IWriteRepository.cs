@@ -1,14 +1,13 @@
 ﻿using BoxApp.Entities;
 
-namespace BoxApp.Repositories
+namespace BoxApp.Repositories;
+
+public interface IWriteRepository<in T>
+    where T : class, IEntity
 {
-    public interface IWriteRepository<in T> 
-        where T : class, IEntity
-    {
-        void Add(T item);
+    void Add(T item);
 
-        void Remove(T item);
+    void Remove(T item);
 
-        void Save();
-    }
+    void Save();
 }

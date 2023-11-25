@@ -1,12 +1,11 @@
 ﻿using BoxApp.Entities;
 
-namespace BoxApp.Repositories
-{
-    public interface IReadRepository<out T> 
-        where T : class, IEntity
-    {
-        IEnumerable<T> GetAll();
+namespace BoxApp.Repositories;
 
-        T GetById(int id);
-    }
+public interface IReadRepository<out T>
+    where T : class, IEntity
+{
+    IEnumerable<T> GetAll();
+
+    T? GetById(int id);
 }
