@@ -1,6 +1,7 @@
 ﻿namespace BoxApp.Repositories;
 
 using BoxApp.Entities;
+using Microsoft.EntityFrameworkCore;
 
 public class ListRepository<T> : IRepository<T>
     where T : class, IEntity, new()
@@ -32,4 +33,15 @@ public class ListRepository<T> : IRepository<T>
     {
         // save is not required with List
     }
+
+    public IEnumerable<T> Read()
+    {
+        return _items.ToList();
+    }
+
+    public void Clear()
+    {
+        _items.Clear();
+    }
+
 }

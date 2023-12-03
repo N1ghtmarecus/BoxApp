@@ -10,4 +10,6 @@ public interface IWriteRepository<in T>
     void Remove(T item);
 
     void Save();
+
+    void Clear();
 }

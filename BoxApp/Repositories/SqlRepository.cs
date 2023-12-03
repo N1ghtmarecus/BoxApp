@@ -45,4 +45,11 @@ public class SqlRepository<T> : IRepository<T>
     {
         _dbContext.SaveChanges();
     }
+
+    public IEnumerable<T> Read() 
+    {
+        return _dbSet.ToList();
+    }
+
+    public void Clear() {}
 }
