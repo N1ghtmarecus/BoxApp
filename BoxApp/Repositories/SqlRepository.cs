@@ -18,6 +18,8 @@ public class SqlRepository<T> : IRepository<T>
     }
 
     public event EventHandler<T>? ItemAdded;
+    public event EventHandler<T>? ItemRemoved;
+    public event EventHandler<T>? DbCleared;
 
     public IEnumerable<T> GetAll()
     {

@@ -1,12 +1,15 @@
 ﻿namespace BoxApp.Repositories;
 
 using BoxApp.Entities;
-using Microsoft.EntityFrameworkCore;
 
 public class ListRepository<T> : IRepository<T>
     where T : class, IEntity, new()
 {
     private readonly List<T> _items = new();
+
+    public event EventHandler<T>? ItemAdded;
+    public event EventHandler<T>? ItemRemoved;
+    public event EventHandler<T>? DbCleared;
 
     public IEnumerable<T> GetAll()
     {
@@ -43,5 +46,4 @@ public class ListRepository<T> : IRepository<T>
     {
         _items.Clear();
     }
-
 }

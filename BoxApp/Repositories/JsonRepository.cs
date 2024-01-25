@@ -103,7 +103,7 @@ public class JsonRepository<T> : IRepository<T>
             throw new Exception("\nFailure - the box catalog is already empty!");
         }
         lastUsedId = 1;
-        DbCleared?.Invoke(this, null);
+        DbCleared?.Invoke(this, null!);
         LogAudit($"Cleared database of {typeof(T).Name}");
     }
 
