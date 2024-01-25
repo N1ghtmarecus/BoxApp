@@ -21,26 +21,27 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
             {
                 case "1":
                     Menu();
-                    DisplayAll(_boxRepository);
+                    DisplayAll();
                     ChooseOptions();
                     break;
 
                 case "2":
                     Menu();
-                    AddNewBox(_boxRepository);
+                    AddNewBox();
                     _boxRepository.Save();
                     ChooseOptions();
                     break;
 
                 case "3":
-                    RemoveBox(_boxRepository);
+                    RemoveBox();
                     _boxRepository.Save();
                     ChooseOptions();
                     break;
 
                 case "4":
-                    ClearDatabase(_boxRepository);
+                    ClearDatabase();
                     _boxRepository.Save();
+                    ChooseOptions();
                     break;
 
                 case "5":
@@ -82,10 +83,10 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         Console.Write("\nChoose an option (1-6): ");
     }
 
-    static void DisplayAll(IReadRepository<IEntity> repository)
+    private void DisplayAll()
     {
         Console.WriteLine("\n----- BOX CATALOG -----");
-        var items = repository.GetAll();
+        var items = _boxRepository.GetAll();
         if (items.ToList().Count == 0)
         {
             Console.WriteLine("\nNo objects found!");
@@ -96,7 +97,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         }
     }
 
-    static void AddNewBox(IRepository<Box> boxRepository)
+    private void AddNewBox()
     {
         Console.Write("\nEnter Fefco: ");
         int fefco;
@@ -150,18 +151,18 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
 
         var newBox = new Box { Fefco = fefco, Length = length, Width = width, Height = height, Flute = flute, Grammage = grammage };
 
-        boxRepository.Add(newBox);
+        _boxRepository.Add(newBox);
     }
 
-    static void RemoveBox(IRepository<Box> boxRepository)
+    private void RemoveBox()
     {
         Console.Write("\nEnter the ID of the box to remove: ");
         if (int.TryParse(Console.ReadLine(), out int boxId))
         {
-            var boxToRemove = boxRepository.GetById(boxId);
+            var boxToRemove = _boxRepository.GetById(boxId);
 
             if (boxToRemove != null)
-                boxRepository.Remove(boxToRemove);
+                _boxRepository.Remove(boxToRemove);
         }
         else
         {
@@ -169,7 +170,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         }
     }
 
-    static void ClearDatabase(IRepository<Box> boxRepository)
+    private void ClearDatabase()
     {
         Console.Write("\nAre you sure you want to clear the database? (Y/N): ");
         var userInput = Console.ReadLine();
@@ -177,7 +178,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         {
             try
             {
-                boxRepository.Clear();
+                _boxRepository.Clear();
             }
             catch (Exception e)
             {
