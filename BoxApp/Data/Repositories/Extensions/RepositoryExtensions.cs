@@ -1,6 +1,7 @@
-﻿using BoxApp.Entities;
+﻿using BoxApp.Data.Entities;
+using BoxApp.Data.Repositories;
 
-namespace BoxApp.Repositories.Extensions;
+namespace BoxApp.Data.Repositories.Extensions;
 
 public static class RepositoryExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace BoxApp.Entities;
+﻿namespace BoxApp.Data.Entities;
 
 public abstract class EntityBase : IEntity
 {

@@ -1,4 +1,4 @@
-﻿using BoxApp.DataProviders;
+﻿using BoxApp.Components.DataProviders;
 
 namespace BoxApp.Services;
 
@@ -67,15 +67,17 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
     private static void DisplayInformationMenu()
     {
         Console.Clear();
-        Console.Write("\n     SUBMENU: More Informations  \n" +
-                "\nWhat specific details would you like to review?\n" +
-                "1. Get unique <Grammage>\n" +
-                "2. Get max <Length>\n" +
-                "3. Get boxes ordered by <Length>\n" +
-                "4. Get boxes ordered by <Width>\n" +
-                "5. Get boxes ordered by <Height>\n" +
-                "6. Get boxes with specific <Height>\n" +
-                "7. Back to MAIN MENU\n");
+        Console.WriteLine("╔═════════════════════════════════════╗");
+        Console.WriteLine("║      SUBMENU: More Informations     ║");
+        Console.WriteLine("╠═════════════════════════════════════╣");
+        Console.WriteLine("║ 1. Get unique <Grammage>            ║");
+        Console.WriteLine("║ 2. Get max <Length>                 ║");
+        Console.WriteLine("║ 3. Get boxes ordered by <Length>    ║");
+        Console.WriteLine("║ 4. Get boxes ordered by <Width>     ║");
+        Console.WriteLine("║ 5. Get boxes ordered by <Height>    ║");
+        Console.WriteLine("║ 6. Get boxes with specific <Height> ║");
+        Console.WriteLine("║ 7. Back to MAIN MENU                ║");
+        Console.WriteLine("╚═════════════════════════════════════╝");
     }
 
     private static void ChooseOptions()

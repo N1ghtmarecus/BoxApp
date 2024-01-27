@@ -1,6 +1,6 @@
-﻿using BoxApp.Entities;
+﻿using BoxApp.Data.Entities;
 
-namespace BoxApp.DataProviders;
+namespace BoxApp.Components.DataProviders;
 
 public interface IBoxesProvider
 {

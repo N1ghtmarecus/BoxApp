@@ -9,8 +9,8 @@ namespace BoxApp
 
         public void Run()
         {
-            _eventHandlerService.SubscribeToEvents();
-            _userCommunication.UserChoice();
+            // _eventHandlerService.SubscribeToEvents();
+            // _userCommunication.UserChoice();
         }
     }
 }

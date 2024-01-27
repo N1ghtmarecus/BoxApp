@@ -1,6 +1,6 @@
-﻿using BoxApp.Entities;
+﻿using BoxApp.Data.Entities;
 
-namespace BoxApp.Repositories;
+namespace BoxApp.Data.Repositories;
 
 public interface IWriteRepository<in T>
     where T : class, IEntity

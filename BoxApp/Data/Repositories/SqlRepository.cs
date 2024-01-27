@@ -1,7 +1,7 @@
-﻿using BoxApp.Entities;
+﻿using BoxApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BoxApp.Repositories;
+namespace BoxApp.Data.Repositories;
 
 public class SqlRepository<T> : IRepository<T>
     where T : class, IEntity, new()
@@ -48,10 +48,10 @@ public class SqlRepository<T> : IRepository<T>
         _dbContext.SaveChanges();
     }
 
-    public IEnumerable<T> Read() 
+    public IEnumerable<T> Read()
     {
         return _dbSet.ToList();
     }
 
-    public void Clear() {}
+    public void Clear() { }
 }

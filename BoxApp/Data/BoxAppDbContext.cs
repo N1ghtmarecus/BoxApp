@@ -1,4 +1,4 @@
-﻿using BoxApp.Entities;
+﻿using BoxApp.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BoxApp.Data;

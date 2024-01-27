@@ -1,6 +1,6 @@
-﻿namespace BoxApp.Repositories;
+﻿namespace BoxApp.Data.Repositories;
 
-using BoxApp.Entities;
+using BoxApp.Data.Entities;
 
 public class ListRepository<T> : IRepository<T>
     where T : class, IEntity, new()

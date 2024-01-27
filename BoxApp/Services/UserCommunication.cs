@@ -1,5 +1,5 @@
-﻿using BoxApp.Entities;
-using BoxApp.Repositories;
+﻿using BoxApp.Data.Entities;
+using BoxApp.Data.Repositories;
 
 namespace BoxApp.Services;
 
@@ -65,17 +65,16 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
     static void Menu()
     {
         Console.Clear();
-        Console.WriteLine(
-                "---------------------------------\n" +
-                "|  Welcome to the Box Catalog!  |\n" +
-                "---------------------------------\n" +
-                "\n             MENU\n" +
-                "1. Display all available boxes\n" +
-                "2. Add a new box\n" +
-                "3. Remove an existing box\n" +
-                "4. Clear the database\n" +
-                "5. More informations\n" +
-                "6. Quit the program");
+        Console.WriteLine("╔════════════════════════════════╗");
+        Console.WriteLine("║      Welcome to Box Catalog    ║");
+        Console.WriteLine("╠════════════════════════════════╣");
+        Console.WriteLine("║ 1. Display all available boxes ║");
+        Console.WriteLine("║ 2. Add a new box               ║");
+        Console.WriteLine("║ 3. Remove an existing box      ║");
+        Console.WriteLine("║ 4. Clear the database          ║");
+        Console.WriteLine("║ 5. More information            ║");
+        Console.WriteLine("║ 6. Quit                        ║");
+        Console.WriteLine("╚════════════════════════════════╝");
     }
 
     static void ChooseOptions()
@@ -85,7 +84,6 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
 
     private void DisplayAll()
     {
-        Console.WriteLine("\n----- BOX CATALOG -----");
         var items = _boxRepository.GetAll();
         if (items.ToList().Count == 0)
         {

@@ -1,8 +1,8 @@
-﻿namespace BoxApp.Repositories;
+﻿namespace BoxApp.Data.Repositories;
 
-using BoxApp.Entities;
 using System.Text.Json;
 using System;
+using BoxApp.Data.Entities;
 
 public class JsonRepository<T> : IRepository<T>
     where T : class, IEntity, new()
@@ -31,7 +31,7 @@ public class JsonRepository<T> : IRepository<T>
         var itemById = _items.SingleOrDefault(item => item.Id == id);
         if (itemById == null)
             Console.WriteLine($"\nObject {typeof(T).Name} with id {id} not found.");
-        
+
         return itemById;
     }
 

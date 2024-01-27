@@ -1,5 +1,5 @@
-﻿using BoxApp.Entities;
-using BoxApp.Repositories;
+﻿using BoxApp.Data.Entities;
+using BoxApp.Data.Repositories;
 
 namespace BoxApp.Services;
 

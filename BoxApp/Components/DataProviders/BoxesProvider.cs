@@ -1,8 +1,8 @@
-﻿using BoxApp.DataProviders.Extensions;
-using BoxApp.Entities;
-using BoxApp.Repositories;
+﻿using BoxApp.Components.DataProviders.Extensions;
+using BoxApp.Data.Entities;
+using BoxApp.Data.Repositories;
 
-namespace BoxApp.DataProviders;
+namespace BoxApp.Components.DataProviders;
 
 internal class BoxesProvider(IRepository<Box> boxesRepository) : IBoxesProvider
 {
