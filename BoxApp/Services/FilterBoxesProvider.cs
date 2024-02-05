@@ -1,4 +1,5 @@
 ﻿using BoxApp.Components.DataProviders;
+using BoxApp.Data.Entities;
 
 namespace BoxApp.Services;
 
@@ -34,24 +35,28 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
                     DisplayInformationMenu();
                     GetBoxesOrderedByLength();
                     ChooseOptions();
+                    Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "4":
                     DisplayInformationMenu();
                     GetBoxesOrderedByWidth();
                     ChooseOptions();
+                    Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "5":
                     DisplayInformationMenu();
                     GetBoxesOrderedByHeight();
                     ChooseOptions();
+                    Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "6":
                     DisplayInformationMenu();
                     GetBoxesWithSpecificHeight();
                     ChooseOptions();
+                    Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "7":
@@ -70,7 +75,7 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
         Console.WriteLine("╔═════════════════════════════════════╗");
         Console.WriteLine("║      SUBMENU: More Informations     ║");
         Console.WriteLine("╠═════════════════════════════════════╣");
-        Console.WriteLine("║ 1. Get unique <Grammage>            ║");
+        Console.WriteLine("║ 1. Get unique <Length>              ║");
         Console.WriteLine("║ 2. Get max <Length>                 ║");
         Console.WriteLine("║ 3. Get boxes ordered by <Length>    ║");
         Console.WriteLine("║ 4. Get boxes ordered by <Width>     ║");
@@ -87,8 +92,8 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
 
     private void GetUniqueGrammage()
     {
-        Console.WriteLine("\nAll unique Grammage: ");
-        foreach (var box in _boxesProvider.GetUniqueBoxGrammage())
+        Console.WriteLine("\nAll unique Length: ");
+        foreach (var box in _boxesProvider.GetUniqueBoxLength())
         {
             Console.WriteLine(box);
         }
@@ -140,7 +145,6 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
 
                 if (boxesWithHeight.Count > 0)
                 {
-                    Console.WriteLine();
                     foreach (var box in boxesWithHeight)
                     {
                         Console.WriteLine(box);

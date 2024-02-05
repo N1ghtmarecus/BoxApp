@@ -7,7 +7,7 @@ using BoxApp.Data.Entities;
 public class JsonRepository<T> : IRepository<T>
     where T : class, IEntity, new()
 {
-    private readonly List<T> _items = new();
+    private readonly List<T> _items = [];
     private int lastUsedId = 1;
     private readonly string path = $"{typeof(T).Name}.json";
     private readonly string auditFilePath = "audit.log";
@@ -15,6 +15,7 @@ public class JsonRepository<T> : IRepository<T>
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;
     public event EventHandler<T>? DbCleared;
+    public event EventHandler<T>? ItemUpdated;
 
     public JsonRepository()
     {
@@ -117,5 +118,10 @@ public class JsonRepository<T> : IRepository<T>
         {
             Console.WriteLine($"Error writing to audit file: {ex.Message}");
         }
+    }
+
+    public void Edit(T item)
+    {
+        throw new NotImplementedException();
     }
 }

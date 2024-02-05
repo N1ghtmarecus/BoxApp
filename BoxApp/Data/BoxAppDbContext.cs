@@ -3,13 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BoxApp.Data;
 
-public class BoxAppDbContext : DbContext
+public class BoxAppDbContext(DbContextOptions<BoxAppDbContext> options) : DbContext(options)
 {
-    public DbSet<Box> Boxes => Set<Box>();
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseInMemoryDatabase("StorageAppDb");
-    }
+    public DbSet<Box> Boxes { get; set; }
 }

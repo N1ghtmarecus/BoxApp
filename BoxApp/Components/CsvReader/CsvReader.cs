@@ -9,7 +9,7 @@ internal class CsvReader : ICsvReader
     {
         if (!File.Exists(filePath)) 
         {
-            return new List<Car>();
+            return [];
         }
 
         var cars = 
@@ -25,7 +25,7 @@ internal class CsvReader : ICsvReader
     {
         if (!File.Exists(filePath)) 
         {
-            return new List<Manufacturer>();
+            return [];
         }
 
         var manufacturers = File.ReadAllLines(filePath)

@@ -6,20 +6,21 @@ namespace BoxApp.Data.Repositories;
 public class SqlRepository<T> : IRepository<T>
     where T : class, IEntity, new()
 {
-    private readonly DbContext _dbContext;
+    private readonly BoxAppDbContext _dbContext;
     private readonly DbSet<T> _dbSet;
-    private readonly Action<T>? _itemAddedCallback;
+    private readonly string auditFilePath = "audit.log";
 
-    public SqlRepository(DbContext dbContext, Action<T>? itemAddedCallback = null)
+    public SqlRepository(BoxAppDbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<T>();
-        _itemAddedCallback = itemAddedCallback;
     }
 
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;
+    public event EventHandler<T>? ItemUpdated;
     public event EventHandler<T>? DbCleared;
+
 
     public IEnumerable<T> GetAll()
     {
@@ -34,13 +35,21 @@ public class SqlRepository<T> : IRepository<T>
     public void Add(T item)
     {
         _dbSet.Add(item);
-        _itemAddedCallback?.Invoke(item);
         ItemAdded?.Invoke(this, item);
+        LogAudit($"\nAdded {typeof(T).Name} => {item}\n");
     }
 
     public void Remove(T item)
     {
         _dbSet.Remove(item);
+        ItemRemoved?.Invoke(this, item);
+        LogAudit($"\nRemoved {typeof(T).Name} => {item}\n");
+    }
+
+    public void Edit(T item)
+    {
+        ItemUpdated?.Invoke(this, item);
+        LogAudit($"\nUpdated {typeof(T).Name} => {item}\n");
     }
 
     public void Save()
@@ -53,5 +62,23 @@ public class SqlRepository<T> : IRepository<T>
         return _dbSet.ToList();
     }
 
-    public void Clear() { }
+    public void Clear()
+    {
+        _dbSet.RemoveRange(_dbSet);
+        _dbContext.SaveChanges();
+        DbCleared?.Invoke(this, null!);
+        LogAudit($"\nCleared database of {typeof(T).Name}\n");
+    }
+
+    private void LogAudit(string logEntry)
+    {
+        try
+        {
+            File.AppendAllText(auditFilePath, $"[{DateTime.Now:yyyy-MM-ddTHH:mm:ss}]-{logEntry}" + Environment.NewLine);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error writing to audit file: {ex.Message}");
+        }
+    }
 }

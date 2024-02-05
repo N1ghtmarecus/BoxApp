@@ -11,6 +11,7 @@ public class EventHandlerService(IRepository<Box> boxRepository) : IEventHandler
     {
         _boxRepository.ItemAdded += BoxRepositoryOnItemAdded;
         _boxRepository.ItemRemoved += BoxRepositoryOnItemRemoved;
+        _boxRepository.ItemUpdated += BoxRepositoryOnItemUpdated;
         _boxRepository.DbCleared += BoxRepositoryOnDbCleared;
     }
 
@@ -21,11 +22,16 @@ public class EventHandlerService(IRepository<Box> boxRepository) : IEventHandler
 
     private void BoxRepositoryOnItemRemoved(object? sender, Box b)
     {
-        Console.WriteLine($"\nBox with ID {b.Id} removed successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
+        Console.WriteLine($"\nBox with ID {b.Id:D3} removed successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
+    }
+
+    private void BoxRepositoryOnItemUpdated(object? sender, Box b) 
+    {
+        Console.WriteLine($"\nBox with ID {b.Id:D3} updated successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
     }
 
     private void BoxRepositoryOnDbCleared(object? sender, Box b)
     {
-        Console.WriteLine($"\nDatabase cleared successfully from {sender?.GetType().Name}");
+        Console.WriteLine($"\nDatabase '{sender?.GetType().Name}' cleared successfully.");
     }
 }

@@ -14,9 +14,9 @@ internal class XmlCreator(ICsvReader csvReader) : IXmlCreator
         var cars = new XElement("Cars", recordCars
             .Select(x =>
                 new XElement("Car",
-                    new XAttribute("Name", x.Name),
+                    new XAttribute("Name", x.Name!),
                     new XAttribute("Combined", x.Combined),
-                    new XAttribute("Manufacturer", x.Manufacturer)
+                    new XAttribute("Manufacturer", x.Manufacturer!)
                     )
             ));
 
@@ -75,7 +75,7 @@ internal class XmlCreator(ICsvReader csvReader) : IXmlCreator
                         new XElement("Car", x.Cars
                             .Select(c =>
                            new XElement("Car",
-                               new XAttribute("Model", c.Name),
+                               new XAttribute("Model", c.Name!),
                                new XAttribute("Combined", c.Combined))))))));
 
         document.Add(manufacturers);

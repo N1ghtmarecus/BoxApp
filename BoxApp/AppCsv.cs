@@ -8,6 +8,6 @@ public class AppCsv(ICsvProvider csvProvider) : IApp
 
     public void Run()
     {
-        _csvProvider.CsvFile();
+        // _csvProvider.CsvFile();
     }
 }

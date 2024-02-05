@@ -33,10 +33,10 @@ internal class BoxesProvider(IRepository<Box> boxesRepository) : IBoxesProvider
         }).ToList();
     }
 
-    public List<int> GetUniqueBoxGrammage()
+    public List<int> GetUniqueBoxLength()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.Select(x => x.Grammage).Distinct().ToList();
+        return boxes.Select(x => x.Length).Distinct().ToList();
     }
 
     // ORDER BY
@@ -44,43 +44,47 @@ internal class BoxesProvider(IRepository<Box> boxesRepository) : IBoxesProvider
     public List<Box> OrderByLength()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.OrderBy(box => box.Length).ToList();
+        return [.. boxes.OrderBy(box => box.Length)];
     }
 
     public List<Box> OrderByWidth()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.OrderBy(box => box.Width).ToList();
+        return [.. boxes.OrderBy(box => box.Width)];
     }
 
     public List<Box> OrderByHeight()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.OrderBy(box => box.Height).ToList();
+        return [.. boxes.OrderBy(box => box.Height)];
     }
 
     public List<Box> OrderByLengthDescending()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.OrderByDescending(box => box.Length).ToList();
+        return [.. boxes.OrderByDescending(box => box.Length)];
     }
 
     public List<Box> OrderByWidthAndHeight()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes
+        return
+        [
+            .. boxes
             .OrderBy(box => box.Width)
-            .ThenBy(box => box.Height)
-            .ToList();
+            .ThenBy(box => box.Height),
+        ];
     }
 
     public List<Box> OrderByWidthAndLengthDescending()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes
+        return
+        [
+            .. boxes
             .OrderBy(box => box.Width)
-            .ThenByDescending(box => box.Length)
-            .ToList();
+            .ThenByDescending(box => box.Length),
+        ];
     }
 
     // WHERE
@@ -178,19 +182,19 @@ internal class BoxesProvider(IRepository<Box> boxesRepository) : IBoxesProvider
     }
 
     // DISTINCT
-    public List<string?> DistinctAllFlutes()
+    public List<int> DistinctAllWidth()
     {
         var boxes = _boxesRepository.GetAll();
         return boxes
-            .Select(box => box.Flute)
+            .Select(box => box.Width)
             .Distinct()
             .ToList();
     }
 
-    public List<Box> DistinctByGrammage()
+    public List<Box> DistinctByHeight()
     {
         var boxes = _boxesRepository.GetAll();
-        return boxes.DistinctBy(box => box.Grammage).ToList();
+        return boxes.DistinctBy(box => box.Height).ToList();
     }
 
     // CHUNK

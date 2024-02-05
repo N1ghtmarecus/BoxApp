@@ -5,11 +5,12 @@ using BoxApp.Data.Entities;
 public class ListRepository<T> : IRepository<T>
     where T : class, IEntity, new()
 {
-    private readonly List<T> _items = new();
+    private readonly List<T> _items = [];
 
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;
     public event EventHandler<T>? DbCleared;
+    public event EventHandler<T>? ItemUpdated;
 
     public IEnumerable<T> GetAll()
     {
@@ -45,5 +46,10 @@ public class ListRepository<T> : IRepository<T>
     public void Clear()
     {
         _items.Clear();
+    }
+
+    public void Edit(T item)
+    {
+        throw new NotImplementedException();
     }
 }

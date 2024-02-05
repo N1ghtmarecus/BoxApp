@@ -7,5 +7,6 @@ public interface IRepository<T> : IReadRepository<T>, IWriteRepository<T>
 {
     public event EventHandler<T>? ItemAdded;
     public event EventHandler<T>? ItemRemoved;
+    public event EventHandler<T>? ItemUpdated;
     public event EventHandler<T>? DbCleared;
 }

@@ -11,7 +11,7 @@ public interface IBoxesProvider
 
     List<Box> GetSpecificColumns();
 
-    List<int> GetUniqueBoxGrammage();
+    List<int> GetUniqueBoxLength();
 
     // ORDER BY
     List<Box> OrderByLength();
@@ -66,9 +66,9 @@ public interface IBoxesProvider
 
     // DISTINCT
 
-    List<string?> DistinctAllFlutes();
+    List<int> DistinctAllWidth();
 
-    List<Box> DistinctByGrammage();
+    List<Box> DistinctByHeight();
 
     // CHUNK
 

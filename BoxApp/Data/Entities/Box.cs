@@ -2,6 +2,8 @@
 
 public class Box : EntityBase
 {
+    public int CutterNr { get; set; }
+
     public int Fefco { get; set; }
 
     public int Length { get; set; }
@@ -9,17 +11,21 @@ public class Box : EntityBase
     public int Width { get; set; }
 
     public int Height { get; set; }
+    public static bool ColumnNamesDisplayed { get => columnNamesDisplayed; set => columnNamesDisplayed = value; }
 
-    public string? Flute { get; set; }
+    private static bool columnNamesDisplayed;
 
-    public int Grammage { get; set; }
+    public override string ToString()
+    {
+        if (!ColumnNamesDisplayed)
+        {
+            ColumnNamesDisplayed = true;
+            return
+              $"\n| {"ID",  -4} | {"Cutter number",-13} | {"Fefco",-5} |  {"Length", -7} |  {"Width" ,-6} |  {"Height", -7} |\n" +
+                $"| {"----",-4} | {"-------------",-13} | {"-----",-5} | {"--------",-7} | {"-------",-6} | {"--------",-7} |\n" +
+                $"| {Id, -4:D3} |      {CutterNr,-8:D3} |  {Fefco, -4} |  {Length,  -6}  |  {Width,  -5}  |  {Height,  -6}  | ";
+        }
 
-    public override string ToString() =>
-        $"ID: {Id,-3} | " +
-        $"Fefco: {Fefco,-3} | " +
-        $"Length: {Length,-4} | " +
-        $"Width: {Width,-4} | " +
-        $"Height: {Height,-4} | " +
-        $"Flute: {Flute,-2} | " +
-        $"Grammage: {Grammage,-4}g/m2";
+        return $"| {Id,-4:D3} |      {CutterNr,-8:D3} |  {Fefco,-4} |  {Length,-6}  |  {Width,-5}  |  {Height,-6}  | ";
+    }
 }

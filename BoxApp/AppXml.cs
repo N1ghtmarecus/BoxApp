@@ -8,8 +8,8 @@ public class AppXml(IXmlCreator xmlCreator) : IApp
 
     public void Run()
     {
-        _xmlCreator.CreateXml();
-        _xmlCreator.QueryXml();
-        _xmlCreator.CreateXmlGroupJoined();
+        // _xmlCreator.CreateXml();
+        // _xmlCreator.QueryXml();
+        // _xmlCreator.CreateXmlGroupJoined();
     }
 }

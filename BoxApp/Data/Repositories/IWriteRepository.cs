@@ -12,4 +12,6 @@ public interface IWriteRepository<in T>
     void Save();
 
     void Clear();
+
+    void Edit(T item);
 }

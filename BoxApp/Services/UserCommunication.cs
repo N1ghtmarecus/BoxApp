@@ -15,50 +15,58 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
 
         while (true)
         {
+            Box.ColumnNamesDisplayed = false;
             var choice = Console.ReadLine();
 
-            switch (choice?.ToUpper())
-            {
-                case "1":
-                    Menu();
-                    DisplayAll();
-                    ChooseOptions();
-                    break;
+            if (choice != null)
+                switch (choice.ToUpper())
+                {
+                    case "1":
+                        Menu();
+                        DisplayAll();
+                        ChooseOptions();
+                        break;
 
-                case "2":
-                    Menu();
-                    AddNewBox();
-                    _boxRepository.Save();
-                    ChooseOptions();
-                    break;
+                    case "2":
+                        Menu();
+                        AddNewBox();
+                        _boxRepository.Save();
+                        ChooseOptions();
+                        break;
 
-                case "3":
-                    RemoveBox();
-                    _boxRepository.Save();
-                    ChooseOptions();
-                    break;
+                    case "3":
+                        EditBox();
+                        _boxRepository.Save();
+                        ChooseOptions();
+                        break;
 
-                case "4":
-                    ClearDatabase();
-                    _boxRepository.Save();
-                    ChooseOptions();
-                    break;
+                    case "4":
+                        RemoveBox();
+                        _boxRepository.Save();
+                        ChooseOptions();
+                        break;
 
-                case "5":
-                    _filterBoxesProvider.FilterBoxes();
-                    _boxRepository.Save();
-                    Menu();
-                    ChooseOptions();
-                    break;
+                    case "5":
+                        ClearDatabase();
+                        _boxRepository.Save();
+                        ChooseOptions();
+                        break;
 
-                case "6":
-                    Console.WriteLine("\nQuiting the program. Goodbye!");
-                    return;
+                    case "6":
+                        _filterBoxesProvider.FilterBoxes();
+                        _boxRepository.Save();
+                        Menu();
+                        ChooseOptions();
+                        break;
 
-                default:
-                    Console.Write("\nInvalid choice. Please try again: ");
-                    continue;
-            }
+                    case "7":
+                        Console.WriteLine("\nQuiting the program. Goodbye!");
+                        return;
+
+                    default:
+                        Console.Write("\nInvalid choice. Please try again: ");
+                        continue;
+                }
         }
     }
 
@@ -70,16 +78,17 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         Console.WriteLine("╠════════════════════════════════╣");
         Console.WriteLine("║ 1. Display all available boxes ║");
         Console.WriteLine("║ 2. Add a new box               ║");
-        Console.WriteLine("║ 3. Remove an existing box      ║");
-        Console.WriteLine("║ 4. Clear the database          ║");
-        Console.WriteLine("║ 5. More information            ║");
-        Console.WriteLine("║ 6. Quit                        ║");
+        Console.WriteLine("║ 3. Edit an existing box        ║");
+        Console.WriteLine("║ 4. Remove an existing box      ║");
+        Console.WriteLine("║ 5. Clear the database          ║");
+        Console.WriteLine("║ 6. More information            ║");
+        Console.WriteLine("║ 7. Quit                        ║");
         Console.WriteLine("╚════════════════════════════════╝");
     }
 
     static void ChooseOptions()
     {
-        Console.Write("\nChoose an option (1-6): ");
+        Console.Write("\nChoose an option (1-7): ");
     }
 
     private void DisplayAll()
@@ -97,59 +106,51 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
 
     private void AddNewBox()
     {
-        Console.Write("\nEnter Fefco: ");
-        int fefco;
-        while (!int.TryParse(Console.ReadLine(), out fefco))
+        int cutterNr;
+        do
         {
-            Console.WriteLine("Invalid Fefco. Please enter a valid number.");
-            Console.Write("Enter Fefco: ");
-        }
+            cutterNr = GetUserInputAsInt("Enter cutter number: ", 1, 999);
 
-        Console.Write("Enter Length: ");
-        int length;
-        while (!int.TryParse(Console.ReadLine(), out length))
+            if (_boxRepository.GetAll().Any(box => box.CutterNr == cutterNr))
+            {
+                Console.WriteLine($"Box with cutter number {cutterNr} already exists. Please enter a different cutter number.");
+            }
+        } while (_boxRepository.GetAll().Any(box => box.CutterNr == cutterNr));
+
+        int fefco = GetUserInputAsInt("Enter Fefco: ", 1, 999);
+        int length = GetUserInputAsInt("Enter Length: ", 1, 2000);
+        int width = GetUserInputAsInt("Enter Width: ", 1, 2000);
+        int height = GetUserInputAsInt("Enter Height: ", 1, 2000);
+
+        var newBox = new Box
         {
-            Console.WriteLine("Invalid Length. Please enter a valid number.");
-            Console.Write("Enter Length: ");
-        }
-
-        Console.Write("Enter Width: ");
-        int width;
-        while (!int.TryParse(Console.ReadLine(), out width))
-        {
-            Console.WriteLine("Invalid Width. Please enter a valid number.");
-            Console.Write("Enter Width: ");
-        }
-
-        Console.Write("Enter Height: ");
-        int height;
-        while (!int.TryParse(Console.ReadLine(), out height))
-        {
-            Console.WriteLine("Invalid Height. Please enter a valid number.");
-            Console.Write("Enter Height: ");
-        }
-
-        Console.Write("Enter Flute: ");
-        string? flute = Console.ReadLine();
-
-        while (string.IsNullOrEmpty(flute))
-        {
-            Console.WriteLine("Invalid Flute. Please enter a valid value.");
-            Console.Write("Enter Flute: ");
-            flute = Console.ReadLine();
-        }
-
-        Console.Write("Enter Grammage: ");
-        int grammage;
-        while (!int.TryParse(Console.ReadLine(), out grammage))
-        {
-            Console.WriteLine("Invalid Grammage. Please enter a valid number.");
-            Console.Write("Enter Grammage: ");
-        }
-
-        var newBox = new Box { Fefco = fefco, Length = length, Width = width, Height = height, Flute = flute, Grammage = grammage };
+            CutterNr = cutterNr,
+            Fefco = fefco,
+            Length = length,
+            Width = width,
+            Height = height,
+        };
 
         _boxRepository.Add(newBox);
+    }
+
+    private static int GetUserInputAsInt(string prompt, int minValue, int maxValue)
+    {
+        int result;
+
+        do
+        {
+            Console.Write(prompt);
+            string userInput = Console.ReadLine()!;
+
+            if (!int.TryParse(userInput, out result) || result < minValue || result > maxValue)
+            {
+                Console.WriteLine($"Invalid input. Please enter a valid number in the range {minValue}-{maxValue}.");
+            }
+
+        } while (result < minValue || result > maxValue);
+
+        return result;
     }
 
     private void RemoveBox()
@@ -166,6 +167,51 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         {
             Console.WriteLine("\nInvalid input. Please enter a valid ID.");
         }
+    }
+
+    private void EditBox()
+    {   
+        
+        Console.Write("Enter the ID of the box to edit: ");
+        do
+        {
+            if (int.TryParse(Console.ReadLine(), out int boxId))
+            {
+                var boxToEdit = _boxRepository.GetById(boxId);
+
+                if (boxToEdit != null)
+                {
+                    Console.WriteLine("\nCurrent Box Information:");
+                    Console.WriteLine(boxToEdit);
+                    Box.ColumnNamesDisplayed = false;
+
+                    Console.WriteLine("\nEnter new information:");
+
+                    int cutterNr = GetUserInputAsInt("Enter cutter number: ", 1, 999);
+                    int fefco = GetUserInputAsInt("Enter Fefco: ", 1, 999);
+                    int length = GetUserInputAsInt("Enter Length: ", 1, 2000);
+                    int width = GetUserInputAsInt("Enter Width: ", 1, 2000);
+                    int height = GetUserInputAsInt("Enter Height: ", 1, 2000);
+
+                    boxToEdit.Fefco = fefco;
+                    boxToEdit.CutterNr = cutterNr;
+                    boxToEdit.Length = length;
+                    boxToEdit.Width = width;
+                    boxToEdit.Height = height;
+
+                    _boxRepository.Edit(boxToEdit);
+                    break;
+                }
+                else
+                {
+                    Console.Write($"\nBox with ID '{boxId}' not found. Please enter a valid ID: ");
+                }
+            }
+            else
+            {
+                Console.Write("\nInvalid input. Please enter a valid ID: ");
+            }
+        } while (true);
     }
 
     private void ClearDatabase()
