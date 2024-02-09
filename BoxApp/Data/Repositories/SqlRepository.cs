@@ -65,7 +65,6 @@ public class SqlRepository<T> : IRepository<T>
     public void Clear()
     {
         _dbSet.RemoveRange(_dbSet);
-        _dbContext.SaveChanges();
         DbCleared?.Invoke(this, null!);
         LogAudit($"\nCleared database of {typeof(T).Name}\n");
     }

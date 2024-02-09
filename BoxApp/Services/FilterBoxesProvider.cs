@@ -11,7 +11,7 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
     public void FilterBoxes()
     {
         DisplayInformationMenu();
-        ChooseOptions();
+        ChooseOption();
 
         while (true)
         {
@@ -22,40 +22,40 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
                 case "1":
                     DisplayInformationMenu();
                     GetUniqueGrammage();
-                    ChooseOptions();
+                    ChooseOption();
                     break;
 
                 case "2":
                     DisplayInformationMenu();
                     GetMaxLength();
-                    ChooseOptions();
+                    ChooseOption();
                     break;
 
                 case "3":
                     DisplayInformationMenu();
                     GetBoxesOrderedByLength();
-                    ChooseOptions();
+                    ChooseOption();
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "4":
                     DisplayInformationMenu();
                     GetBoxesOrderedByWidth();
-                    ChooseOptions();
+                    ChooseOption();
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "5":
                     DisplayInformationMenu();
                     GetBoxesOrderedByHeight();
-                    ChooseOptions();
+                    ChooseOption();
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "6":
                     DisplayInformationMenu();
                     GetBoxesWithSpecificHeight();
-                    ChooseOptions();
+                    ChooseOption();
                     Box.ColumnNamesDisplayed = false;
                     break;
 
@@ -72,20 +72,20 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
     private static void DisplayInformationMenu()
     {
         Console.Clear();
-        Console.WriteLine("╔═════════════════════════════════════╗");
-        Console.WriteLine("║      SUBMENU: More Informations     ║");
-        Console.WriteLine("╠═════════════════════════════════════╣");
-        Console.WriteLine("║ 1. Get unique <Length>              ║");
-        Console.WriteLine("║ 2. Get max <Length>                 ║");
-        Console.WriteLine("║ 3. Get boxes ordered by <Length>    ║");
-        Console.WriteLine("║ 4. Get boxes ordered by <Width>     ║");
-        Console.WriteLine("║ 5. Get boxes ordered by <Height>    ║");
-        Console.WriteLine("║ 6. Get boxes with specific <Height> ║");
-        Console.WriteLine("║ 7. Back to MAIN MENU                ║");
-        Console.WriteLine("╚═════════════════════════════════════╝");
+        Console.WriteLine("╔═════════════════════════════════════╗\n" +
+                          "║      SUBMENU: More Informations     ║\n" +
+                          "╠═════════════════════════════════════╣\n" +
+                          "║ 1. Get unique <Length>              ║\n" +
+                          "║ 2. Get max <Length>                 ║\n" +
+                          "║ 3. Get boxes ordered by <Length>    ║\n" +
+                          "║ 4. Get boxes ordered by <Width>     ║\n" +
+                          "║ 5. Get boxes ordered by <Height>    ║\n" +
+                          "║ 6. Get boxes with specific <Height> ║\n" +
+                          "║ 7. Back to MAIN MENU                ║\n" +
+                          "╚═════════════════════════════════════╝");
     }
 
-    private static void ChooseOptions()
+    private static void ChooseOption()
     {
         Console.Write("\nChoose an option (1-7): ");
     }
@@ -139,27 +139,24 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
         {
             var userInput = Console.ReadLine();
 
-            if (int.TryParse(userInput, out int intValue))
-            {
-                var boxesWithHeight = _boxesProvider.GetAllBoxesWithSpecificHeight(intValue);
-
-                if (boxesWithHeight.Count > 0)
-                {
-                    foreach (var box in boxesWithHeight)
-                    {
-                        Console.WriteLine(box);
-                    }
-                    break;
-                }
-                else
-                {
-                    SecondAndNextInput();
-                }
-            }
-            else
+            if (!int.TryParse(userInput, out int intValue))
             {
                 Console.Write($"\nYour input '{userInput}' is not a valid number! Please enter a correct value: ");
+                continue;
             }
+
+            var boxesWithHeight = _boxesProvider.GetAllBoxesWithSpecificHeight(intValue);
+
+            if (boxesWithHeight.Count > 0)
+            {
+                foreach (var box in boxesWithHeight)
+                {
+                    Console.WriteLine(box);
+                }
+                break;
+            }
+
+            SecondAndNextInput();
         }
     }
 

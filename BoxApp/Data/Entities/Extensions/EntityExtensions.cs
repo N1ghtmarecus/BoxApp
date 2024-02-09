@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using BoxApp.Data.Entities;
 
 namespace BoxApp.Data.Entities.Extensions;
 

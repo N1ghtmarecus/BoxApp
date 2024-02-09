@@ -17,17 +17,17 @@ public class EventHandlerService(IRepository<Box> boxRepository) : IEventHandler
 
     private void BoxRepositoryOnItemAdded(object? sender, Box b)
     {
-        Console.WriteLine($"\nBox added successfully => {b.Length}x{b.Width}x{b.Height} to {sender?.GetType().Name}");
+        Console.WriteLine($"\nBox added successfully => '{b.Length}x{b.Width}x{b.Height}' to {sender?.GetType().Name}");
     }
 
     private void BoxRepositoryOnItemRemoved(object? sender, Box b)
     {
-        Console.WriteLine($"\nBox with ID {b.Id:D3} removed successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
+        Console.WriteLine($"\nBox with ID '{b.Id:D3}' removed successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
     }
 
     private void BoxRepositoryOnItemUpdated(object? sender, Box b) 
     {
-        Console.WriteLine($"\nBox with ID {b.Id:D3} updated successfully. => {b.Length}x{b.Width}x{b.Height} from {sender?.GetType().Name}");
+        Console.WriteLine($"\nBox with ID '{b.Id:D3}' updated successfully. => '{b.Length}x{b.Width}x{b.Height}' to {sender?.GetType().Name}");
     }
 
     private void BoxRepositoryOnDbCleared(object? sender, Box b)
