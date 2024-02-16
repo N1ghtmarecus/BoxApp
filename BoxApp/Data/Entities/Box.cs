@@ -11,6 +11,7 @@ public class Box : EntityBase
     public int Width { get; set; }
 
     public int Height { get; set; }
+
     public static bool ColumnNamesDisplayed { get => columnNamesDisplayed; set => columnNamesDisplayed = value; }
 
     private static bool columnNamesDisplayed;

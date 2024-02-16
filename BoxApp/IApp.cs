@@ -1,7 +1,6 @@
-﻿namespace BoxApp
+﻿namespace BoxApp;
+
+public interface IApp
 {
-    public interface IApp
-    {
-        void Run();
-    }
+    void Run();
 }
