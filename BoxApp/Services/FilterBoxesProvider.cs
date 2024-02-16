@@ -11,7 +11,7 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
     public void FilterBoxes()
     {
         DisplayInformationMenu();
-        ChooseOption();
+        UserCommunication.ChooseOption(1, 7);
 
         while (true)
         {
@@ -22,40 +22,40 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
                 case "1":
                     DisplayInformationMenu();
                     GetUniqueGrammage();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     break;
 
                 case "2":
                     DisplayInformationMenu();
                     GetMaxLength();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     break;
 
                 case "3":
                     DisplayInformationMenu();
                     GetBoxesOrderedByLength();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "4":
                     DisplayInformationMenu();
                     GetBoxesOrderedByWidth();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "5":
                     DisplayInformationMenu();
                     GetBoxesOrderedByHeight();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "6":
                     DisplayInformationMenu();
                     GetBoxesWithSpecificHeight();
-                    ChooseOption();
+                    UserCommunication.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
@@ -83,11 +83,6 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
                           "║ 6. Get boxes with specific <Height> ║\n" +
                           "║ 7. Back to MAIN MENU                ║\n" +
                           "╚═════════════════════════════════════╝");
-    }
-
-    private static void ChooseOption()
-    {
-        Console.Write("\nChoose an option (1-7): ");
     }
 
     private void GetUniqueGrammage()

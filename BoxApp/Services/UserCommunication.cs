@@ -11,7 +11,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
     public void UserChoice()
     {
         Menu();
-        ChooseOption();
+        ChooseOption(1, 8);
 
         while (true)
         {
@@ -24,45 +24,45 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
                     case "1":
                         Menu();
                         DisplayAll();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "2":
                         Menu();
                         AddNewBox();
                         _boxRepository.Save();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "3":
                         EditBox();
                         _boxRepository.Save();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "4":
                         RemoveBox();
                         _boxRepository.Save();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "5":
                         ClearDatabase();
                         _boxRepository.Save();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "6":
                         _filterBoxesProvider.FilterBoxes();
                         _boxRepository.Save();
                         Menu();
-                        ChooseOption();
+                        ChooseOption(1, 8);
                         break;
 
                     case "7":
-                        Menu();
                         CalculateCardboardSize();
-                        ChooseOption();
+                        Menu();
+                        ChooseOption(1, 8);
                         break;
 
                     case "8":
@@ -93,27 +93,42 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
                           "╚═════════════════════════════════╝");
     }
 
-    static void ChooseOption()
+    public static void ChooseOption(int minValue, int maxValue)
     {
-        Console.Write("\nChoose an option (1-8): ");
+        Console.Write($"\nChoose an option ({minValue}-{maxValue}): ");
     }
 
     public void CalculateCardboardSize()
     {
-        Console.Write("\nDo you want to calculate dimensions for an existing box from the database? (Y/N): ");
-        string? userInput = Console.ReadLine();
+        Console.Clear();
+        Console.WriteLine("╔════════════════════════════════════╗\n" +
+                          "║ 1. Calculate from an existing box  ║\n" +
+                          "║ 2. Calculate for new box           ║\n" +
+                          "║ 3. Back to MAIN MENU               ║\n" +
+                          "╚════════════════════════════════════╝");
 
-        switch (userInput?.ToUpper())
+        ChooseOption(1, 3);
+
+        while (true)
         {
-            case "Y":
-                CalculateCardboardSizeForExistingBox();
-                break;
-            case "N":
-                CalculateCardboardSizeForNewBox();
-                break;
-            default:
-                Console.WriteLine($"Invalid input '{userInput}'. Exiting calculation.");
-                break;
+            var userChoice = Console.ReadLine();
+
+            switch (userChoice?.ToUpper())
+            {
+                case "1":
+                    CalculateCardboardSizeForExistingBox();
+                    ChooseOption(1, 3);
+                    break;
+                case "2":
+                    CalculateCardboardSizeForNewBox();
+                    ChooseOption(1, 3);
+                    break;
+                case "3":
+                    return;
+                default:
+                    Console.Write($"\nInvalid choice '{userChoice}'. Please enter a valid number in the range 1-3: ");
+                    continue;
+            }
         }
     }
 
@@ -283,18 +298,20 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
     public void CalculateCardboardSizeForExistingBox()
     {
         Console.Write("Enter the Box ID to calculate: ");
-
-        if (!TryGetBoxId(out var boxToCalculateId))
+        do
         {
-            Console.WriteLine("Invalid box ID. Exiting calculation.");
-            return;
-        }
+            if (!TryGetBoxId(out var boxToCalculateId))
+            {
+                continue;
+            }
 
-        BoxCalculator calculator = new();
+            BoxCalculator calculator = new();
 
-        Box box = _boxRepository.GetById(boxToCalculateId!.Id)!;
+            Box box = _boxRepository.GetById(boxToCalculateId!.Id)!;
 
-        CalculateAndDisplayCardboardSize(calculator, box);
+            CalculateAndDisplayCardboardSize(calculator, box);
+            break;
+        } while (true);
     }
 
     public static void CalculateCardboardSizeForNewBox()
@@ -323,7 +340,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         float cardboardWidth = BoxCalculator.CalculateCardboardWidth(box);
         float cardboardArea = cardboardLength * cardboardWidth / 1000000;
 
-        Console.WriteLine($"\nFor the given box dimensions, the cardboard sizes are:\n" +
+        Console.WriteLine($"\nFor such a box, the cardboard dimensions are:\n" +
                           $"Length = {cardboardLength}mm,\n" +
                           $"Width = {cardboardWidth}mm.\n" +
                           $"So the cardboard area is: {cardboardArea:N3}m²");
