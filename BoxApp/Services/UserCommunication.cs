@@ -1,82 +1,126 @@
 ﻿using BoxApp.Data.Entities;
 using BoxApp.Data.Repositories;
+using BoxApp.Helpers;
 
 namespace BoxApp.Services;
 
-public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvider filterBoxesProvider) : IUserCommunication
+public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvider filterBoxesProvider, InputHelper inputHelper, BoxCalculator boxCalculator) : IUserCommunication
 {
     private readonly IRepository<Box> _boxRepository = boxRepository;
     private readonly IFilterBoxesProvider _filterBoxesProvider = filterBoxesProvider;
+    private readonly InputHelper _inputHelper = inputHelper;
+    private readonly BoxCalculator _boxCalculator = boxCalculator;
 
     public void UserChoice()
     {
-        Menu();
-        ChooseOption(1, 8);
+        MainMenu();
+        ChooseOptionHelper.ChooseOption(1, 8);
 
         while (true)
         {
             Box.ColumnNamesDisplayed = false;
-            var choice = Console.ReadLine();
+            var userChoice = Console.ReadLine();
 
-            if (choice != null)
-                switch (choice.ToUpper())
-                {
-                    case "1":
-                        Menu();
-                        DisplayAll();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "2":
-                        Menu();
-                        AddNewBox();
-                        _boxRepository.Save();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "3":
-                        EditBox();
-                        _boxRepository.Save();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "4":
-                        RemoveBox();
-                        _boxRepository.Save();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "5":
-                        ClearDatabase();
-                        _boxRepository.Save();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "6":
-                        _filterBoxesProvider.FilterBoxes();
-                        _boxRepository.Save();
-                        Menu();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "7":
-                        CalculateCardboardSize();
-                        Menu();
-                        ChooseOption(1, 8);
-                        break;
-
-                    case "8":
-                        Console.WriteLine("\nQuiting the program. Goodbye!");
-                        return;
-
-                    default:
-                        Console.Write($"\nInvalid choice '{choice}'. Please enter a valid number in the range 1-8: ");
-                        continue;
-                }
+            if (userChoice != null)
+                ProcessUserChoice(userChoice);
         }
     }
 
-    static void Menu()
+    private void ProcessUserChoice(string userChoice)
+    {
+        switch (userChoice.ToUpper())
+        {
+            case "1":
+                HandleOption1();
+                break;
+
+            case "2":
+                HandleOption2();
+                break;
+
+            case "3":
+                HandleOption3();
+                break;
+
+            case "4":
+                HandleOption4();
+                break;
+
+            case "5":
+                HandleOption5();
+                break;
+
+            case "6":
+                HandleOption6();
+                break;
+
+            case "7":
+                HandleOption7();
+                break;
+
+            case "8":
+                Console.WriteLine("\nQuitting the program. Goodbye!");
+                Environment.Exit(0);
+                return;
+
+            default:
+                Console.Write($"\nInvalid choice '{userChoice}'. Please enter a valid number in the range 1-8: ");
+                break;
+        }
+    }
+
+    private void HandleOption1()
+    {
+        MainMenu();
+        DisplayAll();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption2()
+    {
+        MainMenu();
+        AddNewBox();
+        _boxRepository.Save();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption3()
+    {
+        EditBox();
+        _boxRepository.Save();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption4()
+    {
+        RemoveBox();
+        _boxRepository.Save();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption5()
+    {
+        ClearDatabase();
+        _boxRepository.Save();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption6()
+    {
+        _filterBoxesProvider.FilterBoxes();
+        _boxRepository.Save();
+        MainMenu();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private void HandleOption7()
+    {
+        CalculateCardboardSize();
+        MainMenu();
+        ChooseOptionHelper.ChooseOption(1, 8);
+    }
+
+    private static void MainMenu()
     {
         Console.Clear();
         Console.WriteLine("╔═════════════════════════════════╗\n" +
@@ -87,48 +131,51 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
                           "║ 3. Edit an existing box         ║\n" +
                           "║ 4. Remove an existing box       ║\n" +
                           "║ 5. Clear the database           ║\n" +
-                          "║ 6. More information             ║\n" +
+                          "║ 6. Boxes filters                ║\n" +
                           "║ 7. Calculate the cardboard size ║\n" +
                           "║ 8. Quit                         ║\n" +
                           "╚═════════════════════════════════╝");
     }
 
-    public static void ChooseOption(int minValue, int maxValue)
+    private static void CalculateCardboardSizeMenu()
     {
-        Console.Write($"\nChoose an option ({minValue}-{maxValue}): ");
+        Console.Clear();
+        Console.WriteLine("╔═════════════════════════════════╗\n" +
+                          "║     Calculate Cardboard Size    ║\n" +
+                          "╠═════════════════════════════════╣\n" +
+                          "║ 1. From an existing box         ║\n" +
+                          "║ 2. For a new box                ║\n" +
+                          "║ 3. Back to MAIN MENU            ║\n" +
+                          "╚═════════════════════════════════╝");
     }
 
     public void CalculateCardboardSize()
     {
-        Console.Clear();
-        Console.WriteLine("╔════════════════════════════════════╗\n" +
-                          "║ 1. Calculate from an existing box  ║\n" +
-                          "║ 2. Calculate for new box           ║\n" +
-                          "║ 3. Back to MAIN MENU               ║\n" +
-                          "╚════════════════════════════════════╝");
+        CalculateCardboardSizeMenu();
 
-        ChooseOption(1, 3);
+        ChooseOptionHelper.ChooseOption(1, 3);
 
         while (true)
         {
             var userChoice = Console.ReadLine();
 
-            switch (userChoice?.ToUpper())
-            {
-                case "1":
-                    CalculateCardboardSizeForExistingBox();
-                    ChooseOption(1, 3);
-                    break;
-                case "2":
-                    CalculateCardboardSizeForNewBox();
-                    ChooseOption(1, 3);
-                    break;
-                case "3":
-                    return;
-                default:
-                    Console.Write($"\nInvalid choice '{userChoice}'. Please enter a valid number in the range 1-3: ");
-                    continue;
-            }
+            if (userChoice != null)
+                switch (userChoice?.ToUpper())
+                {
+                    case "1":
+                        _boxCalculator.CalculateCardboardSizeForExistingBox(_boxCalculator);
+                        ChooseOptionHelper.ChooseOption(1, 3);
+                        break;
+                    case "2":
+                        _boxCalculator.CalculateCardboardSizeForNewBox(_boxCalculator);
+                        ChooseOptionHelper.ChooseOption(1, 3);
+                        break;
+                    case "3":
+                        return;
+                    default:
+                        Console.Write($"\nInvalid choice '{userChoice}'. Please enter a valid number in the range 1-3: ");
+                        continue;
+                }
         }
     }
 
@@ -150,7 +197,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         Console.WriteLine("\nEnter informations:");
 
         var newBox = new Box();
-        GetUniqueBoxInputs(newBox);
+        _inputHelper.GetUniqueBoxInputs(newBox);
 
         try
         {
@@ -162,32 +209,12 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         }
     }
 
-    public void GetUniqueBoxInputs(Box box, bool checkUniqueness = true, int? currentCutterNr = null)
-    {
-        int localCutterNr;
-        do
-        {
-            localCutterNr = GetUserInputAsInt("Cutter number: ", 1, 999);
-
-            if (checkUniqueness && localCutterNr != currentCutterNr && _boxRepository.GetAll().Any(box => box.CutterNr == localCutterNr))
-            {
-                Console.Write($"Box with cutter number '{localCutterNr:D3}' already exists in database. Please enter a different cutter number.\n");
-            }
-        } while (checkUniqueness && _boxRepository.GetAll().Any(box => box.CutterNr == localCutterNr && box.CutterNr != currentCutterNr));
-
-        box.CutterNr = localCutterNr;
-        box.Fefco = GetUserInputAsInt("Fefco: ", 200, 512);
-        box.Length = GetUserInputAsInt("Length: ", 10, 2000);
-        box.Width = GetUserInputAsInt("Width: ", 10, 2000);
-        box.Height = GetUserInputAsInt("Height: ", 10, 2000);
-    }
-
     private void RemoveBox()
     {
         Console.Write("\nEnter the Box ID to remove: ");
         do
         {
-            if (!TryGetBoxId(out var boxToRemove))
+            if (!_inputHelper.TryGetBoxId(out var boxToRemove))
             {
                 continue;
             }
@@ -217,7 +244,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         Console.Write("Enter the Box ID to edit: ");
         do
         {
-            if (!TryGetBoxId(out var boxToEdit))
+            if (!_inputHelper.TryGetBoxId(out var boxToEdit))
             {
                 continue;
             }
@@ -227,7 +254,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
             Box.ColumnNamesDisplayed = false;
 
             Console.WriteLine("\nEnter new informations:");
-            GetUniqueBoxInputs(boxToEdit!, true, boxToEdit!.CutterNr);
+            _inputHelper.GetUniqueBoxInputs(boxToEdit!, true, boxToEdit!.CutterNr);
 
             try
             {
@@ -258,91 +285,5 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         {
             Console.WriteLine($"\nAn error occurred while clearing the database: {e.Message}");
         }
-    }
-
-    public bool TryGetBoxId(out Box? box)
-    {
-        var intCheck = Console.ReadLine();
-        if (!int.TryParse(intCheck, out int boxId))
-        {
-            Console.Write($"\nInvalid input '{intCheck}'. Please enter a valid integer value: ");
-            box = null;
-            return false;
-        }
-
-        box = _boxRepository.GetById(boxId);
-        if (box == null)
-        {
-            Console.Write($"\nThere is no box with ID '{boxId}'. Please enter a valid ID: ");
-            return false;
-        }
-        return true;
-    }
-
-    public static int GetUserInputAsInt(string prompt, int minValue, int maxValue)
-    {
-        int result;
-        do
-        {
-            Console.Write(prompt);
-            string? userInput = Console.ReadLine();
-
-            if (!int.TryParse(userInput, out result) || result < minValue || result > maxValue)
-            {
-                Console.WriteLine($"Invalid input. Please enter a valid number in the range {minValue}-{maxValue}.");
-            }
-        } while (result < minValue || result > maxValue);
-        return result;
-    }
-
-    public void CalculateCardboardSizeForExistingBox()
-    {
-        Console.Write("Enter the Box ID to calculate: ");
-        do
-        {
-            if (!TryGetBoxId(out var boxToCalculateId))
-            {
-                continue;
-            }
-
-            BoxCalculator calculator = new();
-
-            Box box = _boxRepository.GetById(boxToCalculateId!.Id)!;
-
-            CalculateAndDisplayCardboardSize(calculator, box);
-            break;
-        } while (true);
-    }
-
-    public static void CalculateCardboardSizeForNewBox()
-    {
-        Console.WriteLine("\nEnter box dimensions:");
-
-        int length = GetUserInputAsInt("Length: ", 10, 2000);
-        int width = GetUserInputAsInt("Width: ", 10, 2000);
-        int height = GetUserInputAsInt("Height: ", 10, 2000);
-
-        Box box = new()
-        {
-            Length = length,
-            Width = width,
-            Height = height
-        };
-
-        BoxCalculator calculator = new();
-
-        CalculateAndDisplayCardboardSize(calculator, box);
-    }
-
-    private static void CalculateAndDisplayCardboardSize(BoxCalculator calculator, Box box)
-    {
-        float cardboardLength = BoxCalculator.CalculateCardboardLength(box);
-        float cardboardWidth = BoxCalculator.CalculateCardboardWidth(box);
-        float cardboardArea = cardboardLength * cardboardWidth / 1000000;
-
-        Console.WriteLine($"\nFor such a box, the cardboard dimensions are:\n" +
-                          $"Length = {cardboardLength}mm,\n" +
-                          $"Width = {cardboardWidth}mm.\n" +
-                          $"So the cardboard area is: {cardboardArea:N3}m²");
     }
 }

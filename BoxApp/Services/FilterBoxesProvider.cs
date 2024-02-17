@@ -1,5 +1,6 @@
 ﻿using BoxApp.Components.DataProviders;
 using BoxApp.Data.Entities;
+using BoxApp.Helpers;
 
 namespace BoxApp.Services;
 
@@ -11,7 +12,7 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
     public void FilterBoxes()
     {
         DisplayInformationMenu();
-        UserCommunication.ChooseOption(1, 7);
+        ChooseOptionHelper.ChooseOption(1, 7);
 
         while (true)
         {
@@ -22,40 +23,40 @@ public class FilterBoxesProvider(IBoxesProvider boxesProvider) : IFilterBoxesPro
                 case "1":
                     DisplayInformationMenu();
                     GetUniqueGrammage();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     break;
 
                 case "2":
                     DisplayInformationMenu();
                     GetMaxLength();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     break;
 
                 case "3":
                     DisplayInformationMenu();
                     GetBoxesOrderedByLength();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "4":
                     DisplayInformationMenu();
                     GetBoxesOrderedByWidth();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "5":
                     DisplayInformationMenu();
                     GetBoxesOrderedByHeight();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
                 case "6":
                     DisplayInformationMenu();
                     GetBoxesWithSpecificHeight();
-                    UserCommunication.ChooseOption(1, 7);
+                    ChooseOptionHelper.ChooseOption(1, 7);
                     Box.ColumnNamesDisplayed = false;
                     break;
 
