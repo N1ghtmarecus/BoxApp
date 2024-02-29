@@ -72,7 +72,7 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
     private void HandleOption1()
     {
         MainMenu();
-        DisplayAll();
+        DisplayAll(_boxRepository);
         ChooseOptionHelper.ChooseOption(1, 8);
     }
 
@@ -163,11 +163,11 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
                 switch (userChoice?.ToUpper())
                 {
                     case "1":
-                        _boxCalculator.CalculateCardboardSizeForExistingBox(_boxCalculator);
+                        _boxCalculator.CalculateCardboardSizeForExistingBox();
                         ChooseOptionHelper.ChooseOption(1, 3);
                         break;
                     case "2":
-                        _boxCalculator.CalculateCardboardSizeForNewBox(_boxCalculator);
+                        BoxCalculator.CalculateCardboardSizeForNewBox();
                         ChooseOptionHelper.ChooseOption(1, 3);
                         break;
                     case "3":
@@ -179,9 +179,9 @@ public class UserCommunication(IRepository<Box> boxRepository, IFilterBoxesProvi
         }
     }
 
-    private void DisplayAll()
+    private static void DisplayAll(IRepository<Box> repository)
     {
-        var items = _boxRepository.GetAll();
+        var items = repository.GetAll();
         if (items.ToList().Count == 0)
         {
             Console.WriteLine("\nNo objects found!");

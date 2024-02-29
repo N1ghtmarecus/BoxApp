@@ -6,6 +6,7 @@ namespace BoxApp.Helpers;
 public class InputHelper(IRepository<Box> boxRepository)
 {
     private readonly IRepository<Box> _boxRepository = boxRepository;
+
     public static int GetUserInputAsInt(string prompt, int minValue, int maxValue)
     {
         int result;

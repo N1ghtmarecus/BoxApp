@@ -22,7 +22,7 @@ public class BoxCalculator(IRepository<Box> boxRepository, InputHelper inputHelp
         return cardboardWidth;
     }
 
-    public void CalculateCardboardSizeForExistingBox(BoxCalculator calculator)
+    public void CalculateCardboardSizeForExistingBox()
     {
         Console.Write("Enter the Box ID to calculate: ");
         do
@@ -34,12 +34,12 @@ public class BoxCalculator(IRepository<Box> boxRepository, InputHelper inputHelp
 
             Box box = _boxRepository.GetById(boxToCalculateId!.Id)!;
 
-            CalculateAndDisplayCardboardSize(calculator, box);
+            CalculateAndDisplayCardboardSize(box);
             break;
         } while (true);
     }
 
-    public void CalculateCardboardSizeForNewBox(BoxCalculator calculator)
+    public static void CalculateCardboardSizeForNewBox()
     {
         Console.WriteLine("\nEnter box dimensions:");
 
@@ -54,10 +54,10 @@ public class BoxCalculator(IRepository<Box> boxRepository, InputHelper inputHelp
             Height = height
         };
 
-        CalculateAndDisplayCardboardSize(calculator, box);
+        CalculateAndDisplayCardboardSize(box);
     }
 
-    private static void CalculateAndDisplayCardboardSize(BoxCalculator calculator, Box box)
+    private static void CalculateAndDisplayCardboardSize(Box box)
     {
         float cardboardLength = CalculateCardboardLength(box);
         float cardboardWidth = CalculateCardboardWidth(box);
